@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Translatable;
+
     protected $fillable = ['status'];
     public function translations()
     {

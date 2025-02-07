@@ -10,5 +10,8 @@ Route::get('/', function () {
     //     ['locale' => 'en', 'title' => 'Laravel Tips', 'content' => 'Laravel is awesome!'],
     //     ['locale' => 'uz', 'title' => 'Laravel Maslahatlar', 'content' => 'Laravel juda zo‘r!'],
     // ]);
-    return $post->translation()->title;
+    // Barcha tarjimalar
+    foreach ($post->translations as $translation) {
+        echo "{$translation->locale}: {$translation->title}\n";
+    }
 });
