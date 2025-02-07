@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    protected $fillable = ['status'];
     public function translations()
     {
         return $this->hasMany(PostTranslation::class);

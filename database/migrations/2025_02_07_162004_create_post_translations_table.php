@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title');
             $table->text('content')->nullable();
             $table->unique(['post_id', 'locale']);
-            $table->timestamps();
         });
     }
 
