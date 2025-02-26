@@ -20,4 +20,9 @@ class Post extends Model
         $locale = $locale ?? app()->getLocale();
         return $this->translations->where('locale', $locale)->first();
     }
+    public function getTranslationAttribute()
+    {
+        return $this->translation();
+    }
+
 }
