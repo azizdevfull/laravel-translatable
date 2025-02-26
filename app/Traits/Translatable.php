@@ -21,4 +21,22 @@ trait Translatable
             $query->where('locale', $locale)->where($column, 'LIKE', $value);
         });
     }
+    public function setTranslations(array $translations)
+    {
+        if (!$this->id) {
+            throw new \Exception("Model must be saved before setting translations.");
+        }
+
+        $data = [];
+        $foreignKey = $this->getForeignKey(); // Bog‘liq modelning foreign key maydoni
+
+        foreach ($translations as $locale => $values) {
+            $values['locale'] = $locale;
+            $values[$foreignKey] = $this->id; // Modelni bog‘lash
+            $data[] = $values;
+        }
+
+        $this->translations()->upsert($data, [$foreignKey, 'locale'], array_keys($values));
+    }
+
 }

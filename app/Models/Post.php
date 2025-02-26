@@ -24,5 +24,17 @@ class Post extends Model
     {
         return $this->translation();
     }
+    // public function setTranslations(array $translations)
+    // {
+    //     $data = [];
+    //     foreach ($translations as $locale => $values) {
+    //         $values['locale'] = $locale;
+    //         $values['post_id'] = $this->id; // Postga bog‘lash
+    //         $data[] = $values;
+    //     }
+
+    //     PostTranslation::upsert($data, ['post_id', 'locale'], ['title', 'content']);
+    // }
+
 
 }
