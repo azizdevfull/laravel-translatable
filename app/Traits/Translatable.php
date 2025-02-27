@@ -38,5 +38,17 @@ trait Translatable
 
         $this->translations()->upsert($data, [$foreignKey, 'locale'], array_keys($values));
     }
+    public function deleteTranslations($locales = null)
+    {
+        $query = $this->translations();
+
+        if ($locales) {
+            $locales = is_array($locales) ? $locales : [$locales]; // Agar string bo‘lsa, arrayga aylantiramiz
+            $query->whereIn('locale', $locales);
+        }
+
+        return $query->delete();
+    }
+
 
 }

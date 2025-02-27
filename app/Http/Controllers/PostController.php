@@ -15,39 +15,25 @@ class PostController extends Controller
     }
     public function show($id)
     {
-        $post = Post::with('translations')->find($id);
-
+        $post = Post::with('translations')->findOrFail($id);
+        // $post->deleteTranslations(['en', 'de']);
         return response()->json($post);
     }
     public function store(Request $request)
     {
         $post = Post::create($request->all());
-        $post->setTranslations([
-            'de' => [
-                'title' => 'Mein erster bearbeiteter Beitrag',
-                'content' => 'Dies ist der Inhalt meines ersten bearbeiteten Beitrags',
-            ],
-        ]);
+        $translationColumns = ['title', 'content'];
+        $translations = $this->prepareTranslations($request->translations, $translationColumns);
+        $post->setTranslations($translations);
         return response()->json($post->load('translations'), 201);
     }
     public function update(Request $request, $id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $post->update($request->all());
-        $post->setTranslations([
-            'en' => [
-                'title' => 'My first edited post',
-                'content' => 'This is my first edited post content',
-            ],
-            'de' => [
-                'title' => 'Mein erster bearbeiteter Beitrag',
-                'content' => 'Dies ist der Inhalt meines ersten bearbeiteten Beitrags',
-            ],
-            'uz' => [
-                'title' => 'Mening birinchi tahrir qilingan postim',
-                'content' => 'Bu mening birinchi tahrir qilingan postimning tarkibi',
-            ],
-        ]);
+        $translationColumns = ['title', 'content'];
+        $translations = $this->prepareTranslations($request->translations, $translationColumns);
+        $post->setTranslations($translations);
         return response()->json($post->load('translations'), 200);
     }
 }
