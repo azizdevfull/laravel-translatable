@@ -32,6 +32,20 @@ trait Translatable
         return parent::__get($key);
     }
 
+    public function toArray()
+    {
+        $attributes = parent::toArray();
+
+        // Tarjima qilinadigan maydonlarni qo‘shish
+        if (isset($this->translatedAttributes)) {
+            foreach ($this->translatedAttributes as $attribute) {
+                $attributes[$attribute] = optional($this->translation())->$attribute ?? null;
+            }
+        }
+
+        return $attributes;
+    }
+
     public function setTranslations(array $translations)
     {
         if (!$this->exists) {
