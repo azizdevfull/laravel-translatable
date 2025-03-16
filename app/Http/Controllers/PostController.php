@@ -17,8 +17,9 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::with('translations')->findOrFail($id);
-        // $post->deleteTranslations(['en', 'de']);
-        return response()->json($post);
+        // $post->deleteTranslations('de'); agar bitta tilni o'chirish kerak bo'lsa
+        // $post->deleteTranslations(['de', 'en']); // agar bir nechta tilni o'chirish kerak bo'lsa
+        return response()->json(new PostResource($post->refresh()));
     }
     public function store(Request $request)
     {
@@ -26,7 +27,7 @@ class PostController extends Controller
         $translationColumns = ['title', 'content'];
         $translations = $this->prepareTranslations($request->translations, $translationColumns);
         $post->setTranslations($translations);
-        return response()->json($post->load('translations'), 201);
+        return response()->json(new PostResource($post->load('translations')), 201);
     }
     public function update(Request $request, $id)
     {
@@ -35,6 +36,12 @@ class PostController extends Controller
         $translationColumns = ['title', 'content'];
         $translations = $this->prepareTranslations($request->translations, $translationColumns);
         $post->setTranslations($translations);
-        return response()->json($post->load('translations'), 200);
+        return response()->json(new PostResource($post->load('translations')), 200);
+    }
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return response()->json(null, 204);
     }
 }
