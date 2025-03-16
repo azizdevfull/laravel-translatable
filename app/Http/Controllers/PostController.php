@@ -12,7 +12,6 @@ class PostController extends Controller
     {
         // app()->setLocale('uz');
         $posts = Post::with('translations')->get();
-
         return response()->json(PostResource::collection($posts));
     }
     public function show($id)
