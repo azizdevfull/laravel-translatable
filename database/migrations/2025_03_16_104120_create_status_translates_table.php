@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('locale', 5)->index(); // Misol: en, uz, ru
             $table->string('name');
             $table->unique(['status_id', 'locale']);
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 
