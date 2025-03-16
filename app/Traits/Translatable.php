@@ -22,14 +22,21 @@ trait Translatable
             $query->where('locale', $locale)->where($column, 'LIKE', "%$value%");
         });
     }
-    // public function __get($key)
-    // {
-    //     if (isset($this->translatedAttributes) && in_array($key, $this->translatedAttributes)) {
-    //         return optional($this->translation())->$key ?? null;
-    //     }
+    public function scopeWhereTranslation(Builder $query, $column, $value, $locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+        return $query->whereHas('translations', function ($query) use ($column, $value, $locale) {
+            $query->where('locale', $locale)->where($column, $value);
+        });
+    }
+    public function scopeOrWhereTranslation(Builder $query, $column, $value, $locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+        return $query->orWhereHas('translations', function ($query) use ($column, $value, $locale) {
+            $query->where('locale', $locale)->where($column, $value);
+        });
+    }
 
-    //     return parent::__get($key);
-    // }
     public function toArray()
     {
         $attributes = parent::toArray();
