@@ -10,13 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('post_translations', function (Blueprint $table) {
+        Schema::create('status_translates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')->constrained()->onDelete('cascade');
+            $table->foreignId('status_id')->constrained()->onDelete('cascade');
             $table->string('locale', 5)->index(); // Misol: en, uz, ru
-            $table->string('title');
-            $table->text('content')->nullable();
-            $table->unique(['post_id', 'locale']);
+            $table->string('name');
+            $table->unique(['status_id', 'locale']);
+            $table->timestamps();
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_translations');
+        Schema::dropIfExists('status_translates');
     }
 };
