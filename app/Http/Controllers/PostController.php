@@ -19,6 +19,8 @@ class PostController extends Controller
         $post = Post::with('translations')->findOrFail($id);
         // $post->deleteTranslations('de'); agar bitta tilni o'chirish kerak bo'lsa
         // $post->deleteTranslations(['de', 'en']); // agar bir nechta tilni o'chirish kerak bo'lsa
+        // $post->deleteTranslations(); // xamma tarjimalarni o'chirish kerak bo'lsa
+        // return $post->translation('uz')->title;
         return response()->json(new PostResource($post->refresh()));
     }
     public function store(Request $request)

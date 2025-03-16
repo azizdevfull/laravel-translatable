@@ -10,5 +10,4 @@ class Status extends Model
     use Translatable;
 
     protected $translatedAttributes = ['name']; // Tarjima qilinadigan maydonlar
-
 }
