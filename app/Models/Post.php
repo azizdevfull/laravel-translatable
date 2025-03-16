@@ -9,12 +9,12 @@ class Post extends Model
 {
     use Translatable;
 
+    public $translatedAttributes = ['title', 'content']; // Tarjima qilinadigan maydonlar
     protected $fillable = ['status'];
     public function translations()
     {
         return $this->hasMany(PostTranslation::class);
     }
-
     public function translation($locale = null)
     {
         $locale = $locale ?? app()->getLocale();
