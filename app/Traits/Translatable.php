@@ -22,16 +22,14 @@ trait Translatable
             $query->where('locale', $locale)->where($column, 'LIKE', "%$value%");
         });
     }
+    // public function __get($key)
+    // {
+    //     if (isset($this->translatedAttributes) && in_array($key, $this->translatedAttributes)) {
+    //         return optional($this->translation())->$key ?? null;
+    //     }
 
-    public function __get($key)
-    {
-        if (isset($this->translatedAttributes) && in_array($key, $this->translatedAttributes)) {
-            return optional($this->translation())->$key ?? null;
-        }
-
-        return parent::__get($key);
-    }
-
+    //     return parent::__get($key);
+    // }
     public function toArray()
     {
         $attributes = parent::toArray();
@@ -81,5 +79,37 @@ trait Translatable
     protected function getTranslationForeignKey()
     {
         return strtolower(class_basename($this)) . '_id';
+    }
+    public function translations()
+    {
+        return $this->hasMany($this->getTranslationModel(), $this->getForeignKey());
+    }
+
+    public function translation($locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+        return $this->translations->where('locale', $locale)->first();
+    }
+    public function getTranslationAttribute()
+    {
+        return $this->translation();
+    }
+
+    public function __get($key)
+    {
+        if (isset($this->translatedAttributes) && in_array($key, $this->translatedAttributes)) {
+            return optional($this->translation())->$key ?? null;
+        }
+
+        return parent::__get($key);
+    }
+    public function getTranslationModel()
+    {
+        return $this->translationModel ?? get_class($this) . 'Translation';
+    }
+
+    public function getForeignKey()
+    {
+        return $this->translationForeignKey ?? strtolower(class_basename($this)) . '_id';
     }
 }
