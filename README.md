@@ -1,4 +1,4 @@
-# 📜 Translatable Trait
+# 📜 Translatable Trait <a href="./app/Traits/Translatable.php">Link</a>
 
 **Translatable** trait Laravel modellarida ko‘p tilli (multilingual) ma’lumotlarni boshqarish uchun ishlatiladi. Bu trait modelga qo‘shilgan tarjima maydonlarini avtomatik ravishda olish va qidirish imkonini beradi.
 
